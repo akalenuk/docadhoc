@@ -12,7 +12,7 @@ class serve_doc:
 		path += '/'
         full_path = './static/docadhoc/' + path
 	files_and_dirs = sorted(os.listdir(full_path))
-	page = ''
+	page = '<!DOCTYPE html><html><head><link rel="icon" href="/static/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/static/default.css"></head><body>'
 
 	page += '<h1>'
 	subpath_place = [('/', '~')]
@@ -41,7 +41,7 @@ class serve_doc:
 			page += '</li>'
 	page += '</ol>'
 
-        return page
+        return page + '</body></html>'
 
 if __name__ == "__main__":
     app.run()

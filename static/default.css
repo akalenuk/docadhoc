@@ -1,0 +1,36 @@
+body{
+	margin: 0 0 0 0;
+}
+
+a{
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 16pt;
+	background: #ccbbff;
+	padding: 8pt;
+	margin: 0 0 0 0;
+}
+
+img {
+	width: 600px;
+}
+
+ul {
+	color: #777777;
+	font-size: 14pt;
+}
+
+ol {
+	color: #777777;
+	font-size: 12pt;
+}
+
+pre {
+	color: #000000;
+	margin: 0 0 0 0;
+	padding-top: 2pt;
+	padding-bottom: 8pt;
+	font-size: 12pt;
+}
