@@ -1,9 +1,8 @@
 import web
 import os
         
-urls = (
-    '/(.*)', 'serve_doc'
-)
+urls = ('/(.*)', 'serve_doc')
+
 app = web.application(urls, globals())
 
 class serve_doc:        
@@ -12,6 +11,7 @@ class serve_doc:
 	if path:
 		path += '/'
         full_path = './static/docadhoc/' + path
+	files_and_dirs = sorted(os.listdir(full_path))
 	page = ''
 
 	page += '<h1>'
@@ -22,14 +22,10 @@ class serve_doc:
 		subpath_place += [(subpath, place)] 
 	for (subpath, place) in subpath_place[:-1]:
 		page += '<a href="' + subpath + '">' + place + '</a> / '
-	(subpath, place) = subpath_place[-1]
-	page += place + '</h1>'
-	
-	files_and_dirs = sorted(os.listdir(full_path))
+	page += subpath_place[-1][1] + '</h1>'
 
 	page += '<ul>'
 	for file_or_dir in files_and_dirs:
-		print full_path + file_or_dir
 		if os.path.isdir(full_path + file_or_dir):
 			page += '<li><a href="/' + path + file_or_dir + '">' + file_or_dir + '</a></li>'
 	page += '</ul>'
