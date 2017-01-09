@@ -53,6 +53,5 @@ class serve_doc:
 	page += '</ul>'
         return page + footer
 
-
 if __name__ == "__main__":
     app.run()
