@@ -36,7 +36,8 @@ pre {
 }
 
 form{
-	padding: 20pt;	
+	padding: 20pt;
+	margin-top: 32pt;
 }
 
 input[type="text"]{
