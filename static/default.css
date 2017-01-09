@@ -10,6 +10,7 @@ h1 {
 	font-size: 16pt;
 	background: #ccbbff;
 	padding: 8pt;
+	padding-left: 24pt;
 	margin: 0 0 0 0;
 }
 
@@ -18,11 +19,13 @@ img {
 }
 
 ul {
+	padding-left: 24pt;
 	color: #8877aa;
 	font-size: 14pt;
 }
 
 ol {
+	padding-left: 24pt;
 	color: #8877aa;
 	font-size: 12pt;
 }
@@ -36,7 +39,7 @@ pre {
 }
 
 form{
-	padding: 20pt;
+	padding: 24pt;
 	margin-top: 32pt;
 }
 
