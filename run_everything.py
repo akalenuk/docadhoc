@@ -14,9 +14,10 @@ class serve_doc:
     def GET(self, path):
 	if not path:
 		raise web.redirect('/docadhoc')
-	path.replace('.', '')
         full_path = './static/' + path
 	files_and_dirs = sorted(os.listdir(full_path))
+	files = [file_name for file_name in files_and_dirs if os.path.isfile(full_path + '/' + file_name)]
+	dirs = [file_name for file_name in files_and_dirs if os.path.isdir(full_path + '/' + file_name)]
 	page = header
 	page += '<h1>' # breadcrumbs
 	subpath = ''
@@ -25,22 +26,18 @@ class serve_doc:
 		page += '<a href="' + subpath + '">' + place + '</a> / '
 	page += path.split('/')[-1] + '</h1>'
 	page += '<ul>' # directories
-	for file_or_dir in files_and_dirs:
-		if os.path.isdir(full_path + '/' + file_or_dir):
-			page += '<li><a href="/' + path + '/' + file_or_dir + '">' + file_or_dir + '</a></li>'
+	for dir_name in dirs:
+		page += '<li><a href="/' + path + '/' + dir_name + '">' + dir_name + '</a></li>'
 	page += '</ul>'
 	page += '<ol>' # files
-	no = 0
-	for file_or_dir in files_and_dirs:
-		if os.path.isfile(full_path + '/' + file_or_dir):
-			no += 1
-			page += '<li><a name="' + str(no) + '"></a>'
-			page += '<a href="/static/' + path + '/' + file_or_dir + '">' + file_or_dir + '</a>'
-			if file_or_dir.split('.')[-1] in texts:
-				page += '<br /><pre>' + open(full_path + '/' + file_or_dir, 'r').read() + '</pre>'
-			if file_or_dir.split('.')[-1] in images:
-				page += '<br /><img src="/static/' + path + '/' + file_or_dir + '" />'
-			page += '</li>'
+	for file_name, no in zip(files, range(1, len(files) + 1)):
+		page += '<li><a name="' + str(no) + '"></a>'
+		page += '<a href="/static/' + path + '/' + file_name + '">' + file_name + '</a>'
+		if file_name.split('.')[-1] in texts:
+			page += '<br /><pre>' + open(full_path + '/' + file_name, 'r').read() + '</pre>'
+		if file_name.split('.')[-1] in images:
+			page += '<br /><img src="/static/' + path + '/' + file_name + '" />'
+		page += '</li>'
 	page += '</ol>'
 	return page + footer
 
