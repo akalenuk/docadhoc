@@ -6,6 +6,9 @@ urls = ('/(.*)', 'serve_doc')
 
 app = web.application(urls, globals())
 
+header = '<!DOCTYPE html><html><head><link rel="icon" href="/static/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/static/default.css"></head><body>'
+footer = '<br /><br /><form action="/" method="POST"><input type="text" name="search" /><input type="submit" value="?" /></form></body></html>'
+
 class serve_doc:        
     def GET(self, path):
 	path.replace('.', '')
@@ -13,7 +16,7 @@ class serve_doc:
 		path += '/'
         full_path = './static/docadhoc/' + path
 	files_and_dirs = sorted(os.listdir(full_path))
-	page = '<!DOCTYPE html><html><head><link rel="icon" href="/static/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/static/default.css"></head><body>'
+	page = header
 
 	page += '<h1>'
 	subpath_place = [('/', '~')]
@@ -45,23 +48,20 @@ class serve_doc:
 			page += '</li>'
 	page += '</ol>'
 
-	page += '<br /><br />'
-	page += '<form action="/" method="POST"><input type="text" name="search" /><input type="submit" value="?" /></form>'
-
-        return page + '</body></html>'
+	return page + footer
 
     def POST(self, _):
 	search_for = web.data().split('search=')[1]
-	page = '<!DOCTYPE html><html><head><link rel="icon" href="/static/favicon.ico" type="image/x-icon"><link rel="stylesheet" href="/static/default.css"></head><body>'
+	page = header
 	page += '<h1><a href="/">~</a> ? ' + search_for + '</h1>'
 	page += '<ul>'
 	for path, dirs, files in os.walk('./static/docadhoc'):
 		for file_name, no in zip(sorted(files), range(1, len(files) + 1)):
-			if re.match(search_for, file_name):
+			if re.search(search_for, file_name) or (file_name.endswith('.dah') and re.search(search_for, open(path + '/' + file_name, 'r').read())):
 				short_path = path[len('./static/docadhoc'):] + '/'
 				page += '<li><a href="' + short_path + '#' + str(no) + '">' + short_path + file_name + '</a></li>'
 	page += '</ul>'
-        return page + '</body></html>'
+        return page + footer
 
 
 if __name__ == "__main__":
