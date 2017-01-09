@@ -19,19 +19,18 @@ class serve_doc:
 	files = [file_name for file_name in files_and_dirs if os.path.isfile(full_path + '/' + file_name)]
 	dirs = [file_name for file_name in files_and_dirs if os.path.isdir(full_path + '/' + file_name)]
 	page = header
-	page += '<h1>' # breadcrumbs
-	subpath = ''
-	for place in path.split('/')[:-1]:
-		subpath += '/' + place
-		page += '<a href="' + subpath + '">' + place + '</a> / '
-	page += path.split('/')[-1] + '</h1>'
-	page += '<ul>' # directories
+	page += '\n\n<h1>' # breadcrumbs
+	places = path.split('/')
+	for i in range(len(places) - 1):
+		page += '\n<a href="/' +  '/'.join(places[:i + 1]) + '">' + places[i] + '</a> / '
+	page += places[-1] + '</h1>'
+	page += '\n\n<ul>' # directories
 	for dir_name in dirs:
-		page += '<li><a href="/' + path + '/' + dir_name + '">' + dir_name + '</a></li>'
+		page += '\n<li><a href="/' + path + '/' + dir_name + '">' + dir_name + '</a></li>'
 	page += '</ul>'
-	page += '<ol>' # files
+	page += '\n\n<ol>' # files
 	for file_name, no in zip(files, range(1, len(files) + 1)):
-		page += '<li><a name="' + str(no) + '"></a>'
+		page += '\n<li><a name="' + str(no) + '"></a>'
 		page += '<a href="/static/' + path + '/' + file_name + '">' + file_name + '</a>'
 		if file_name.split('.')[-1] in texts:
 			page += '<br /><pre>' + open(full_path + '/' + file_name, 'r').read() + '</pre>'
